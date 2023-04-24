@@ -1,6 +1,3 @@
-Client and Server code to upload a phsycian note, recognize 
-
-
 <a name="readme-top"></a>
 
 
