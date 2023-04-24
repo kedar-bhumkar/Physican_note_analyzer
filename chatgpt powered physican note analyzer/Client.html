@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>Beautiful HTML Template</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<style type="text/css">
+	
+
+
+		html {
+			display: block;
+			
+				background-color: #35498b;
+				
+		}
+		body {
+			background-color: #fff;
+			font-family: Arial, sans-serif;
+		}
+		
+		#container {
+			position:relative;
+			height:100%;
+		}
+		
+			.header {
+		background-image: url('banner2.webp');
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 200px;
+	}
+
+	.middle-section {
+		
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background-color: #bdecff;
+		color: #fff;
+		padding: 50px;
+	}
+
+	.upload-button {
+		background-color: #fff;
+		color: #f7931e;
+		border: none;
+		padding: 10px 20px;
+		font-size: 18px;
+		font-weight: bold;
+		border-radius: 5px;
+		cursor: pointer;
+		margin-bottom: 20px;
+	}
+
+	.image-preview {
+		max-width: 500px;
+		margin-bottom: 50px;
+	}
+
+	.text-section {
+		background-color:#35498b;
+		color: #fff;
+		padding: 50px;
+		font-size: 18px;
+		line-height: 1.5;
+		text-align: justify;
+
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		color: #d0dae1;
+		margin-top: 0;
+		margin-bottom: 10px;
+		font-weight: bold;
+	}
+
+	p {
+		margin-top: 0;
+		margin-bottom: 10px;
+	}
+	
+	input[type="file"] {
+	display:none;
+    
+}
+.custom-file-upload {
+  background-color: #04AA6D; /* Green */
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.header-text {
+position: absolute;
+  top: 150px;
+  left: 30%;
+  color: #040d3f;
+
+}
+
+
+</style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+        $(document).ready(function() {
+		$('#loading-image').hide();
+		$(".text-section").hide();
+            $('#upload-bt-id').on('click', function() {
+                // Get the file input element and file object
+                var fileInput = $('#file-upload')[0];
+                var file = fileInput.files[0];
+
+				 $('#blah').attr('src', file.name).width(500).height(600);
+				 
+                // Create a new FormData object and add the file to it
+                var formData = new FormData();
+                formData.append('image', file);
+
+                // Send a POST request to the Flask app with the FormData object
+                $.ajax({
+                    url: 'http://localhost:5000/upload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+
+                    beforeSend: function() {
+						$(".text-section").show();
+						$('#loading-image').show();
+                        $('#status').text('Analyzing  image ...');
+                    },
+                    success: function(response) {
+						$('#loading-image').hide();
+						
+                        $('#status').text(response);
+                    },
+                    error: function(xhr, status, error) {
+						$('#loading-image').hide();
+                        $('#status').text('Error uploading file');
+                        console.log(error);
+                    }
+                });
+            });
+        });
+		    </script>
+</head>
+<body>
+<div id ="container">
+	<header class="header">
+		<h1 class="header-text">Physician note analyzer powered by ChatGPT</h1>
+	</header>
+	 
+	<section class="middle-section">
+		<!--button class="upload-button">Upload File</button-->
+		<label for="file-upload" class="custom-file-upload">
+					<i class="fa fa-cloud-upload"></i>  Upload file
+		</label>
+		<input id="file-upload" type="file"/>
+		
+		<img id="blah" class="image-preview"   />
+		<button  id="upload-bt-id" class="upload-button">Run ChatGPT analysis</button>
+	</section>
+
+	<section class="text-section">
+		<h1>ChatGPT analysis:</h1>
+		<p id="status"></p>
+		<img id = "loading-image" src="822.gif" >	
+	</section>
+</div>
+</body>
+</html>

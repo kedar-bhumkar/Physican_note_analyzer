@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Extracted text</title>
+  </head>
+  <body>
+
+    {% if image %}
+        <img src="{{ url_for('static', filename='uploads/' + image) }}">
+    {% endif %}
+    
+    {% if text %}
+    <br><br>
+    <h2>Extracted text:::</h2>
+    <p>{{ text }}</p>
+    {% endif %}
+  </body>
+</html>
+

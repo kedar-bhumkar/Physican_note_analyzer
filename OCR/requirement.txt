@@ -1,0 +1,8 @@
+flask
+PIL
+io
+base64
+jsonify
+flask_cors
+openai
+pytesseract
